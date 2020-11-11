@@ -1,0 +1,13 @@
+name: Publish Docker
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: publish
+      uses: HurricanKai/Publish-Docker-Github-Action@master
+      with:
+        name: j18e/covid-tracking
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}

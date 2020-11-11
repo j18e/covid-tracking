@@ -1,0 +1,20 @@
+version: '3'
+services:
+  influxdb:
+    restart: always
+    image: influxdb:1.7-alpine
+    hostname: influxdb
+    container_name: influxdb
+    ports: ["8087:8086"]
+    environment:
+      INFLUXDB_DB: covid_data
+  grafana:
+    restart: always
+    hostname: grafana
+    container_name: grafana
+    image: grafana/grafana:7.3.0
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_NAME: "Main Org."
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+    ports: ["3000:3000"]
