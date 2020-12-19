@@ -87,9 +87,10 @@ def write_norway_data(client, data):
                 payload.append(new_dp("norway_tested", d["date"], fields={"count": v, "movingAverage": a}))
         elif l["id"] == "positive-share":
             for d in l["data"]:
-                v = float(d["value"])
-                a = float(d["movingAverage"])
-                payload.append(new_dp("norway_positive_share", d["date"], fields={"count": v, "movingAverage": a}))
+                dp = new_dp("norway_positive_share", d["date"], fields={"count": float(d["value"])})
+                if d["movingAverage"]:
+                    dp["fields"]["movingAverage"] = float(d["movingAverage"])
+                payload.append(dp)
         elif l["id"] == "hospitalized":
             for d in l["data"]:
                 if d["value"]:
@@ -125,17 +126,19 @@ if __name__ == "__main__":
     client = InfluxDBClient(host=influx_addr.split(":")[0], port=influx_addr.split(":")[1])
     client.switch_database(database_name)
 
-    print("loading testing data")
-    write_testing_data(client, load_data_from_url(testing_data_url))
+    # print("loading testing data")
+    # testing_data = load_data_from_url(testing_data_url)
+    # write_testing_data(client, testing_data)
 
     print("loading norway data")
-    write_norway_data(client, load_data_from_url(norway_url))
+    norway_data = load_data_from_url(norway_url)
+    write_norway_data(client, norway_data)
 
-    print("loading deaths data (this might take some time)")
-    deaths_data = []
-    for point in load_data_from_url(deaths_data_url):
-        if point['continent'] == 'Europe':
-            deaths_data.append(point)
-    write_deaths_data(client, deaths_data)
+    # print("loading deaths data (this might take some time)")
+    # deaths_data = []
+    # for point in load_data_from_url(deaths_data_url):
+    #     if point['continent'] == 'Europe':
+    #         deaths_data.append(point)
+    # write_deaths_data(client, deaths_data)
 
     print("all data successfully loaded")
