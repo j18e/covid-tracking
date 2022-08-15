@@ -5,8 +5,8 @@ from datetime import datetime
 from influxdb import InfluxDBClient
 
 database_name = "covid_data"
-testing_data_url = "https://opendata.ecdc.europa.eu/covid19/testing/json"
-deaths_data_url = "https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/json"
+testing_data_url = "https://opendata.ecdc.europa.eu/covid19/testing/json/"
+deaths_data_url = "https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/json/"
 norway_url = "https://redutv-api.vg.no/corona/v1/areas/country/key"
 
 def load_data_from_url(url):
